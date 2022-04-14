@@ -2,6 +2,7 @@ var phrase
 var letters = []
 const regex = new RegExp('[A-Z]')
 
+// ### Get random phrase from array
 function generatePhrase() {
     letters = []
     phrase = phrases[Math.round(Math.random()*phrases.length)]
@@ -14,8 +15,9 @@ async function generateLetters() {
     letters.forEach((element) => {
         if (regex.test(element)) {
             let letterBox = document.createElement('div')
-            letterBox.className = "letter-box"
-            letterBox.setAttribute("id",element)
+            letterBox.classList.add('letter-box')
+            letterBox.classList.add('letter-hidden')
+            letterBox.classList.add(element)
             letterBox.innerHTML = element
             letterContainer.append(letterBox)
         }
@@ -30,7 +32,11 @@ async function generateLetters() {
 document.addEventListener('keypress', function(e) {
     let keyLetter = String.fromCharCode(e.keyCode).toUpperCase()
     if (regex.test(keyLetter)) {
-        console.log(`You pressed ${String.fromCharCode(e.keyCode).toUpperCase()}`)
+        console.log(`You pressed ${keyLetter}`)
     }
     else {console.log('Unaccepted Character')}
+    let letterGuess = document.querySelectorAll(`.${keyLetter}`)
+    letterGuess.forEach((element) => {
+        element.classList.remove('letter-hidden')
+    })
 })
