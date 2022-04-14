@@ -30,7 +30,7 @@ async function generateLetters() {
 document.addEventListener('keypress', function(e) {
     let keyLetter = String.fromCharCode(e.keyCode).toUpperCase()
     if (regex.test(keyLetter)) {
-        console.log(`You presgit sed ${String.fromCharCode(e.keyCode).toUpperCase()}`)
+        console.log(`You pressed ${String.fromCharCode(e.keyCode).toUpperCase()}`)
     }
     else {console.log('Unaccepted Character')}
 })
