@@ -1,5 +1,7 @@
 #letter-container {
     display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .letter-box {
