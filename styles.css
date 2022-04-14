@@ -1,0 +1,13 @@
+#letter-container {
+    display: flex;
+}
+
+.letter-box {
+    border: 1px solid black;
+    padding: 10px;
+    color: rgba(0,0,0,0)
+}
+
+.space-box {
+    padding: 10px;
+}
