@@ -16,3 +16,21 @@
 .space-box {
     padding: 10px;
 }
+
+.keyboard {
+    border: 1px solid black;
+}
+.top-row {
+    display:flex;
+    justify-content: center;
+}
+
+.middle-row {
+    display:flex;
+    justify-content: center;
+}
+
+.bottom-row {
+    display:flex;
+    justify-content: center;
+}
