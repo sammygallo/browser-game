@@ -1,13 +1,15 @@
 var phrase;
 var letters = [];
 var words = [];
-const regex = new RegExp("[A-Z]");
 var selectedKey;
 var guesses = [];
+var correctGuesses = [];
+const regex = new RegExp("[A-Z]");
+
+
 
 // ### Get random phrase from array
 function generatePhrase() {
-  letters = [];
   phrase = phrases[Math.round(Math.random() * phrases.length)];
 }
 
@@ -30,15 +32,17 @@ async function generateLetters() {
   letters.forEach((element) => {
     if (regex.test(element)) {
       let letterBox = document.createElement("div");
+      let letterContainer = document.createElement("div")
       letterBox.classList.add("letter-box");
-      letterBox.classList.add("letter-hidden");
-      letterBox.classList.add(element);
-      letterBox.innerHTML = element;
-      letterContainer.append(letterBox);
+      letterContainer.classList.add("letter-hidden");
+      letterContainer.classList.add(element);
+      letterContainer.innerHTML = element;
+      letterBox.append(letterContainer)
+      lettersContainer.append(letterBox);
     } else {
       let letterBox = document.createElement("div");
       letterBox.className = "space-box";
-      letterContainer.append(letterBox);
+      lettersContainer.append(letterBox);
     }
   });
 }
@@ -56,9 +60,15 @@ document.addEventListener("keypress", function (e) {
       console.log("exists");
       letterDiv.forEach((element) => {
         element.classList.remove("letter-hidden");
+        document.getElementById(letterGuess).classList.add("keyboard-key-green")
+        correctGuesses.push(letterGuess)
+        if (correctGuesses.length == letters.length) {
+            alert("You Won!")
+        }
       });
     } else {
       console.log("does not exist");
+      document.getElementById(letterGuess).classList.add("keyboard-key-gray")
     }
     guesses.push(letterGuess);
   }

@@ -1,4 +1,4 @@
-#letter-container {
+#letters-container {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
@@ -16,7 +16,7 @@
 }
 
 .letter-hidden {
-    color: rgba(0,0,0,0);
+    display: none;
 }
 
 .space-box {
@@ -44,4 +44,12 @@
 .keyboard-key {
     width: 3em;
     height: 3em;
+}
+
+.keyboard-key-green {
+    background-color: green;
+}
+
+.keyboard-key-gray {
+    background-color: darkslategray;
 }
