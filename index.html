@@ -8,7 +8,7 @@
 
     <body>
        <!-- <div id="phrase-container"></div> -->
-        <div id="letters-container"></div>
+        <div id="phrase-container"></div>
         <div class="keyboard">
             <div class="top-row">
                 <button class="keyboard-key" id="Q" onclick="guess('Q')">Q</button>
@@ -42,11 +42,14 @@
                 <button class="keyboard-key" id="N" onclick="guess('N')">N</button>
                 <button class="keyboard-key" id="M" onclick="guess('M')">M</button>
             </div>
+            <div>
+                <button onclick="spin()">Spin The Wheel</button>
+            </div>
         </div>
         
     </body>
     <script>
-    generateWord()
-    let lettersContainer = document.getElementById("letters-container");
+    generateBoard()
+    let phraseContainer = document.getElementById("phrase-container");
     </script>
 </html>

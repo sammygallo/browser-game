@@ -1,7 +1,12 @@
-#letters-container {
+#phrase-container {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
+}
+
+.word-box {
+    display: flex;
+    margin: 10px;
 }
 
 .letter-box {
@@ -19,25 +24,22 @@
     display: none;
 }
 
-.space-box {
-    padding: 10px;
+.keyboard {
+    display: block;
 }
 
-.keyboard {
-    
-}
 .top-row {
-    display:flex;
+    display: flex;
     justify-content: center;
 }
 
 .middle-row {
-    display:flex;
+    display: flex;
     justify-content: center;
 }
 
 .bottom-row {
-    display:flex;
+    display: flex;
     justify-content: center;
 }
 
