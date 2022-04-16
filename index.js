@@ -1,3 +1,9 @@
+/*
+### TO DO ###
+1. Push all words in phrase to words array
+2. Make on screen buttons behave like keypress (or vice versa)
+*/
+
 var phrase;
 var letters = [];
 var words = [];
@@ -5,8 +11,6 @@ var selectedKey;
 var guesses = [];
 var correctGuesses = [];
 const regex = new RegExp("[A-Z]");
-
-
 
 // ### Get random phrase from array
 function generatePhrase() {
@@ -32,12 +36,12 @@ async function generateLetters() {
   letters.forEach((element) => {
     if (regex.test(element)) {
       let letterBox = document.createElement("div");
-      let letterContainer = document.createElement("div")
+      let letterContainer = document.createElement("div");
       letterBox.classList.add("letter-box");
       letterContainer.classList.add("letter-hidden");
       letterContainer.classList.add(element);
       letterContainer.innerHTML = element;
-      letterBox.append(letterContainer)
+      letterBox.append(letterContainer);
       lettersContainer.append(letterBox);
     } else {
       let letterBox = document.createElement("div");
@@ -48,7 +52,8 @@ async function generateLetters() {
 }
 
 // ### Listen for keypress, reveal letter boxes when present, log "does not exist" when not present
-document.addEventListener("keypress", function (e) {
+
+/*function guess(e) {
   let letterGuess = String.fromCharCode(e.keyCode).toUpperCase();
   letterDiv = document.querySelectorAll(
     `.${String.fromCharCode(e.keyCode).toUpperCase()}`
@@ -60,16 +65,47 @@ document.addEventListener("keypress", function (e) {
       console.log("exists");
       letterDiv.forEach((element) => {
         element.classList.remove("letter-hidden");
-        document.getElementById(letterGuess).classList.add("keyboard-key-green")
-        correctGuesses.push(letterGuess)
+        document
+          .getElementById(letterGuess)
+          .classList.add("keyboard-key-green");
+        correctGuesses.push(letterGuess);
         if (correctGuesses.length == letters.length) {
-            alert("You Won!")
+          alert("You Won!");
         }
       });
     } else {
       console.log("does not exist");
-      document.getElementById(letterGuess).classList.add("keyboard-key-gray")
+      document.getElementById(letterGuess).classList.add("keyboard-key-gray");
     }
     guesses.push(letterGuess);
   }
-});
+}
+*/
+
+document.addEventListener("keypress", function(e){
+    let letterGuess = String.fromCharCode(e.keyCode).toUpperCase();
+    document.getElementById(letterGuess).click();
+})
+
+function guess(letterGuess) {
+    letterDiv = document.querySelectorAll(`.${letterGuess}`)
+    if (guesses.find((element) => element == letterGuess)) {
+        alert(`${letterGuess} was already guessed`);
+      } else {
+        if (letterDiv.length > 0) {
+          letterDiv.forEach((element) => {
+            element.classList.remove("letter-hidden");
+            document
+              .getElementById(letterGuess)
+              .classList.add("keyboard-key-green");
+            correctGuesses.push(letterGuess);
+            if (correctGuesses.length == letters.length) {
+              alert("You Won!");
+            }
+          });
+        } else {
+          document.getElementById(letterGuess).classList.add("keyboard-key-gray");
+        }
+        guesses.push(letterGuess);
+      }
+}``
