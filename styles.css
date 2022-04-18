@@ -55,3 +55,20 @@
 .keyboard-key-gray {
     background-color: gray;
 }
+
+#phrase-guess-div {
+    display: none;
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#player-one-box {
+    border: 5px solid white;
+}
+
+#player-two-box {
+    border: 5px solid white;
+}

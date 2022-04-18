@@ -8,7 +8,12 @@
 </head>
 
 <body>
-    <!-- <div id="phrase-container"></div> -->
+    <div class="score-container">
+        <div id="player-one-box">Player 1 Score <div id="player-one-score"></div>
+        </div>
+        <div id="player-two-box">Player 2 Score <div id="player-two-score"></div>
+        </div>
+    </div>
     <div id="phrase-container"></div>
     <div class="keyboard">
         <div class="top-row">
@@ -46,12 +51,14 @@
         <div>
             <div>
                 <button onclick="spin()">Spin The Wheel</button>
+                <div id="spin-result"></div>
             </div>
-            <div id="spin-result"></div>
-            <div>Player 1 Score</div>
-            <div id="player-one-score"></div>
         </div>
-
+        <div id="phrase-guess-div">
+            <input type="text" id="phrase-guess-entry">
+            <button onclick="phraseGuess()">Guess the Phrase</button>
+        </div>
+        <button onclick="revealPhraseGuess()">I'd like to guess the phrase</button>
     </div>
 
 </body>
@@ -60,6 +67,13 @@
     let phraseContainer = document.getElementById("phrase-container");
     let spinResult = document.getElementById("spin-result")
     let playerOneScoreDisplay = document.getElementById("player-one-score")
+    let playerTwoScoreDisplay = document.getElementById("player-two-score")
+    let phraseGuessDiv = document.getElementById("phrase-guess-div")
+    let phraseGuessEntry = document.getElementById("phrase-guess-entry")
+    let playerOneBox = document.getElementById("player-one-box")
+    let playerTwoBox = document.getElementById("player-two-box")
+    playerOneBox.style.borderColor = "green"
+
 </script>
 
 </html>
