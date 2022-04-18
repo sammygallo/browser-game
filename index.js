@@ -2,20 +2,48 @@ var phrase;
 var words = [];
 var guesses = [];
 var correctGuesses = [];
-var wheelWedges = ["Bankrupt",650,700,"Loose a Turn",800,500,650,500,900,"Bankrupt",5000,500,600,700,600,650,500,700,500,600,550,500,600]
+var canSpin = true;
+var potentialPoints;
+var playerOneScore = 0;
 const regex = new RegExp("[A-Z]");
+var wheelWedges = [
+  "Bankrupt",
+  650,
+  700,
+  "Loose a Turn",
+  800,
+  500,
+  650,
+  500,
+  900,
+  "Bankrupt",
+  5000,
+  500,
+  600,
+  700,
+  600,
+  650,
+  500,
+  700,
+  500,
+  600,
+  550,
+  500,
+  600,
+];
 
 // ### Get random phrase from array
 function generatePhrase() {
   phrase = phrases[Math.round(Math.random() * phrases.length)];
 }
 
+// ### Break up the phrase into words and letters and populate the game board
 async function generateBoard() {
   await generatePhrase();
   words = Array.from(phrase.toUpperCase().split(" "));
   words.forEach((element) => {
     let wordBox = document.createElement("div");
-    wordBox.classList.add("word-box")
+    wordBox.classList.add("word-box");
     var letters = Array.from(element.toUpperCase());
     letters.forEach((element) => {
       if (regex.test(element)) {
@@ -26,7 +54,7 @@ async function generateBoard() {
         letterContainer.classList.add(element);
         letterContainer.innerHTML = element;
         letterBox.append(letterContainer);
-        wordBox.append(letterBox)
+        wordBox.append(letterBox);
         phraseContainer.append(wordBox);
       }
     });
@@ -41,24 +69,38 @@ document.addEventListener("keypress", function (e) {
 
 function guess(letterGuess) {
   letterDiv = document.querySelectorAll(`.${letterGuess}`);
-  if (guesses.find((element) => element == letterGuess)) {
-    alert(`${letterGuess} was already guessed`);
+  if (canSpin == true) {
+    alert("You need to spin the wheel first");
   } else {
-    if (letterDiv.length > 0) {
-      letterDiv.forEach((element) => {
-        element.classList.remove("letter-hidden");
-        document
-          .getElementById(letterGuess)
-          .classList.add("keyboard-key-green");
-        correctGuesses.push(letterGuess);
-      });
+    if (guesses.find((element) => element == letterGuess)) {
+      alert(`${letterGuess} was already guessed`);
     } else {
-      document.getElementById(letterGuess).classList.add("keyboard-key-gray");
+      if (letterDiv.length > 0) {
+        letterDiv.forEach((element) => {
+          element.classList.remove("letter-hidden");
+          document
+            .getElementById(letterGuess)
+            .classList.add("keyboard-key-green");
+          correctGuesses.push(letterGuess);
+          playerOneScore = playerOneScore + potentialPoints;
+          playerOneScoreDisplay.textContent = playerOneScore;
+        });
+      } else {
+        document.getElementById(letterGuess).classList.add("keyboard-key-gray");
+      }
+      guesses.push(letterGuess);
     }
-    guesses.push(letterGuess);
+    canSpin = true;
   }
 }
 
 function spin() {
+  if (canSpin == true) {
     result = wheelWedges[Math.round(Math.random() * wheelWedges.length)];
+    spinResult.textContent = result;
+    potentialPoints = result;
+    canSpin = false;
+  } else {
+    alert("The wheel has already been spun");
+  }
 }

@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="./phrases.js"></script>
-        <script src="./index.js"></script>
-        <link rel="stylesheet" href="./styles.css">
-    </head>
 
-    <body>
-       <!-- <div id="phrase-container"></div> -->
-        <div id="phrase-container"></div>
-        <div class="keyboard">
-            <div class="top-row">
-                <button class="keyboard-key" id="Q" onclick="guess('Q')">Q</button>
-                <button class="keyboard-key" id="W" onclick="guess('W')">W</button>
-                <button class="keyboard-key" id="E" onclick="guess('E')">E</button>
-                <button class="keyboard-key" id="R" onclick="guess('R')">R</button>
-                <button class="keyboard-key" id="T" onclick="guess('T')">T</button>
-                <button class="keyboard-key" id="Y" onclick="guess('Y')">Y</button>
-                <button class="keyboard-key" id="U" onclick="guess('U')">U</button>
-                <button class="keyboard-key" id="I" onclick="guess('I')">I</button>
-                <button class="keyboard-key" id="O" onclick="guess('O')">O</button>
-                <button class="keyboard-key" id="P" onclick="guess('P')">P</button>
-            </div>
-            <div class="middle-row">
-                <button class="keyboard-key" id="A" onclick="guess('A')">A</button>
-                <button class="keyboard-key" id="S" onclick="guess('S')">S</button>
-                <button class="keyboard-key" id="D" onclick="guess('D')">D</button>
-                <button class="keyboard-key" id="F" onclick="guess('F')">F</button>
-                <button class="keyboard-key" id="G" onclick="guess('G')">G</button>
-                <button class="keyboard-key" id="H" onclick="guess('H')">H</button>
-                <button class="keyboard-key" id="J" onclick="guess('J')">J</button>
-                <button class="keyboard-key" id="K" onclick="guess('K')">K</button>
-                <button class="keyboard-key" id="L" onclick="guess('L')">L</button>
-            </div>
-            <div class="bottom-row">
-                <button class="keyboard-key" id="Z" onclick="guess('Z')">Z</button>
-                <button class="keyboard-key" id="X" onclick="guess('X')">X</button>
-                <button class="keyboard-key" id="C" onclick="guess('C')">C</button>
-                <button class="keyboard-key" id="V" onclick="guess('V')">V</button>
-                <button class="keyboard-key" id="B" onclick="guess('B')">B</button>
-                <button class="keyboard-key" id="N" onclick="guess('N')">N</button>
-                <button class="keyboard-key" id="M" onclick="guess('M')">M</button>
-            </div>
+<head>
+    <script src="./phrases.js"></script>
+    <script src="./index.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <!-- <div id="phrase-container"></div> -->
+    <div id="phrase-container"></div>
+    <div class="keyboard">
+        <div class="top-row">
+            <button class="keyboard-key" id="Q" onclick="guess('Q')">Q</button>
+            <button class="keyboard-key" id="W" onclick="guess('W')">W</button>
+            <button class="keyboard-key" id="E" onclick="guess('E')">E</button>
+            <button class="keyboard-key" id="R" onclick="guess('R')">R</button>
+            <button class="keyboard-key" id="T" onclick="guess('T')">T</button>
+            <button class="keyboard-key" id="Y" onclick="guess('Y')">Y</button>
+            <button class="keyboard-key" id="U" onclick="guess('U')">U</button>
+            <button class="keyboard-key" id="I" onclick="guess('I')">I</button>
+            <button class="keyboard-key" id="O" onclick="guess('O')">O</button>
+            <button class="keyboard-key" id="P" onclick="guess('P')">P</button>
+        </div>
+        <div class="middle-row">
+            <button class="keyboard-key" id="A" onclick="guess('A')">A</button>
+            <button class="keyboard-key" id="S" onclick="guess('S')">S</button>
+            <button class="keyboard-key" id="D" onclick="guess('D')">D</button>
+            <button class="keyboard-key" id="F" onclick="guess('F')">F</button>
+            <button class="keyboard-key" id="G" onclick="guess('G')">G</button>
+            <button class="keyboard-key" id="H" onclick="guess('H')">H</button>
+            <button class="keyboard-key" id="J" onclick="guess('J')">J</button>
+            <button class="keyboard-key" id="K" onclick="guess('K')">K</button>
+            <button class="keyboard-key" id="L" onclick="guess('L')">L</button>
+        </div>
+        <div class="bottom-row">
+            <button class="keyboard-key" id="Z" onclick="guess('Z')">Z</button>
+            <button class="keyboard-key" id="X" onclick="guess('X')">X</button>
+            <button class="keyboard-key" id="C" onclick="guess('C')">C</button>
+            <button class="keyboard-key" id="V" onclick="guess('V')">V</button>
+            <button class="keyboard-key" id="B" onclick="guess('B')">B</button>
+            <button class="keyboard-key" id="N" onclick="guess('N')">N</button>
+            <button class="keyboard-key" id="M" onclick="guess('M')">M</button>
+        </div>
+        <div>
             <div>
                 <button onclick="spin()">Spin The Wheel</button>
             </div>
+            <div id="spin-result"></div>
+            <div>Player 1 Score</div>
+            <div id="player-one-score"></div>
         </div>
-        
-    </body>
-    <script>
+
+    </div>
+
+</body>
+<script>
     generateBoard()
     let phraseContainer = document.getElementById("phrase-container");
-    </script>
+    let spinResult = document.getElementById("spin-result")
+    let playerOneScoreDisplay = document.getElementById("player-one-score")
+</script>
+
 </html>
