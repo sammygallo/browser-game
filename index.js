@@ -1,5 +1,6 @@
 var phrase;
 var words = [];
+var letters = [];
 var guesses = [];
 var correctGuesses = [];
 var canSpin = true;
@@ -8,6 +9,7 @@ var playerOneScore = 0;
 var playerTwoScore = 0;
 var activePlayer = "playerOne";
 var guessingPhrase = false;
+var result;
 const regex = new RegExp("[A-Z]");
 var wheelWedges = [
   "Bankrupt",
@@ -32,7 +34,7 @@ var wheelWedges = [
   600,
   550,
   500,
-  600,
+  600
 ];
 
 // ### Get random phrase from array
@@ -43,6 +45,7 @@ function generatePhrase() {
 // ### Break up the phrase into words and letters and populate the game board
 async function generateBoard() {
   await generatePhrase();
+  letters = Array.from(phrase.toUpperCase());
   words = Array.from(phrase.toUpperCase().split(" "));
   words.forEach((element) => {
     let wordBox = document.createElement("div");
@@ -67,11 +70,22 @@ async function generateBoard() {
 // ### Listen for keypress, reveal letter boxes when present, log "does not exist" when not present
 
 document.addEventListener("keypress", function (e) {
+    if (regex.test(String.fromCharCode(e.keyCode).toUpperCase())) {
   let letterGuess = String.fromCharCode(e.keyCode).toUpperCase();
   document.getElementById(letterGuess).click();
+    }
 });
 
 function buyVowel(vowel) {
+    if (activePlayer == "playerOne" && playerOneScore < 250) {
+        alert("You don't have enough points to buy a vowel")
+    } else if (activePlayer == "playerTwo" && playerTwoScore < 250) {
+        alert("You don't have enough points to buy a vowel")
+    }
+    else {
+    potentialPoints = 0
+    spinResult.textContent = ""
+    canSpin = true
     if (activePlayer == "playerOne") {
         playerOneScore = playerOneScore - 250
         playerOneScoreDisplay.textContent = playerOneScore;
@@ -107,6 +121,7 @@ function buyVowel(vowel) {
         }
         guesses.push(vowel);
       }
+    }
 }
 
 function guess(letterGuess) {
