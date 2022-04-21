@@ -1,7 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Akshar', sans-serif;
+}
+
+.game-container {
+    /* max-width: fit-content; */
+    margin: auto;
+    /* border: 1px solid #f0f0f0; */
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, .25);
+}
+
 #phrase-container {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    background-color: #81B29A;
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .word-box {
@@ -11,13 +29,16 @@
 
 .letter-box {
     border: 1px solid black;
-    padding: 10px;
-    width: 3em;
-    height: 3em;
+    /* padding: 10px; */
+    width: 2em;
+    height: 2em;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 2px;
+    font-size: 2em;
+    font-weight: 700;
+    background-color: #F4F1DE;
 }
 
 .letter-hidden {
@@ -49,7 +70,7 @@
 }
 
 .keyboard-key-green {
-    background-color: green;
+    background-color: #81B29A;
 }
 
 .keyboard-key-gray {
@@ -65,10 +86,28 @@
     justify-content: space-between;
 }
 
-#player-one-box {
+.player-box {
     border: 5px solid white;
+    padding: 10px;
+    font-weight: 100;
+    font-size: 1em;
+    margin: 10px;
 }
 
-#player-two-box {
-    border: 5px solid white;
+#spin-result {
+    height: 40px;
+}
+
+#phrase-guess-entry {
+    width: 50%;
+}
+
+.player-score {
+    height: 20px;
+    min-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.5em;
 }
