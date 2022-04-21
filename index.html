@@ -11,20 +11,25 @@
     <div class="game-container">
         <div class="score-container">
             <div id="player-one-box" class="player-box">
-                <span>Player 1</span>
-                <div id="player-one-score" class="player-score"></div>
+                <div class="player-name-and-round-score">
+                    <span>Player 1</span>
+                    <div id="player-one-round-score" class="player-round-score"></div>
+                </div>
+                <div id="player-one-total-score" class="player-total-score"></div>
             </div>
+            <div id="round">Round <span id="round-number"></span></div>
             <div id="player-two-box" class="player-box">
-                <span>Player 2</span>
-                <div id="player-two-score" class="player-score"></div>
+                <div class="player-name-and-round-score">
+                    <span>Player 2</span>
+                    <div id="player-two-round-score" class="player-round-score"></div>
+                </div>
+                <div id="player-two-total-score" class="player-total-score"></div>
             </div>
         </div>
         <div id="phrase-container"></div>
-        <div>
-            <div>
-                <button onclick="spin()">Spin The Wheel</button>
-                <div id="spin-result"></div>
-            </div>
+        <div class="wheel-container">
+            <button onclick="spin()">Spin The Wheel</button>
+            <div id="spin-result"></div>
         </div>
         <button onclick="revealPhraseGuess()">Guess The Phrase</button>
         <div id="phrase-guess-div">
@@ -66,18 +71,23 @@
             </div>
         </div>
     </div>
+    <button class="new-game">Start A New Game</button>
 </body>
 <script>
     generateBoard()
     let phraseContainer = document.getElementById("phrase-container");
     let spinResult = document.getElementById("spin-result")
-    let playerOneScoreDisplay = document.getElementById("player-one-score")
-    let playerTwoScoreDisplay = document.getElementById("player-two-score")
+    let playerOneRoundScoreDisplay = document.getElementById("player-one-round-score")
+    let playerOneTotalScoreDisplay = document.getElementById("player-one-total-score")
+    let playerTwoRoundScoreDisplay = document.getElementById("player-two-round-score")
+    let playerTwoTotalScoreDisplay = document.getElementById("player-two-total-score")
     let phraseGuessDiv = document.getElementById("phrase-guess-div")
     let phraseGuessEntry = document.getElementById("phrase-guess-entry")
     let playerOneBox = document.getElementById("player-one-box")
     let playerTwoBox = document.getElementById("player-two-box")
     let allPhraseLetters = document.querySelectorAll(".letter-hidden")
+    let roundNumber = document.getElementById("round-number")
+    roundNumber.textContent = currentRound
     playerOneBox.style.borderColor = "green"
 
 </script>

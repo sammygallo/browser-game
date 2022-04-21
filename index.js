@@ -5,12 +5,16 @@ var guesses = [];
 var correctGuesses = [];
 var canSpin = true;
 var potentialPoints;
-var playerOneScore = 0;
-var playerTwoScore = 0;
+var playerOneRoundScore = 0;
+var playerOneTotalScore = 0;
+var playerTwoRoundScore = 0;
+var playerTwoTotalScore = 0;
 var activePlayer = "playerOne";
 var guessingPhrase = false;
 var result;
 var currentRound = 1;
+var activePlayerIndicator = "green"
+var inactivePlayerIndicator = "gray"
 const regex = new RegExp("[A-Z]");
 var wheelWedges = [
   "Bankrupt",
@@ -89,31 +93,31 @@ async function spin() {
         canSpin = true;
         if (activePlayer == "playerOne") {
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = "green";
-          playerOneBox.style.borderColor = "white";
+          playerTwoBox.style.borderColor = activePlayerIndicator;
+          playerOneBox.style.borderColor = inactivePlayerIndicator;
           alert("Player One Loses A Turn");
         } else {
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = "green";
-          playerTwoBox.style.borderColor = "white";
+          playerOneBox.style.borderColor = activePlayerIndicator;
+          playerTwoBox.style.borderColor = inactivePlayerIndicator;
           alert("Player Two Loses A Turn");
         }
       } else if (result == "Bankrupt") {
         canSpin = true;
         if (activePlayer == "playerOne") {
-          playerOneScore = 0;
-          playerOneScoreDisplay.textContent = playerOneScore;
+          playerOneRoundScore = 0;
+          playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = "green";
-          playerOneBox.style.borderColor = "white";
-          alert("Player Two's Turn");
+          playerTwoBox.style.borderColor = activePlayerIndicator;
+          playerOneBox.style.borderColor = inactivePlayerIndicator;
+          alert("Player One Bankrupt");
         } else {
-          playerTwoScore = 0;
-          playerTwoScoreDisplay.textContent = playerTwoScore;
+          playerTwoRoundScore = 0;
+          playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = "green";
-          playerTwoBox.style.borderColor = "white";
-          alert("Player One's Turn");
+          playerOneBox.style.borderColor = activePlayerIndicator;
+          playerTwoBox.style.borderColor = inactivePlayerIndicator;
+          alert("Player Two Bankrupt");
         }
       } else {
         canSpin = false;
@@ -150,24 +154,24 @@ function letterGuess(letter) {
                 .classList.add("keyboard-key-green");
               correctGuesses.push(letter);
               if (activePlayer == "playerOne") {
-                playerOneScore = playerOneScore + potentialPoints;
-                playerOneScoreDisplay.textContent = playerOneScore;
+                playerOneRoundScore = playerOneRoundScore + potentialPoints;
+                playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
               } else {
-                playerTwoScore = playerTwoScore + potentialPoints;
-                playerTwoScoreDisplay.textContent = playerTwoScore;
+                playerTwoRoundScore = playerTwoRoundScore + potentialPoints;
+                playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
               }
             });
           } else {
             document.getElementById(letter).classList.add("keyboard-key-gray");
             if (activePlayer == "playerOne") {
               activePlayer = "playerTwo";
-              playerTwoBox.style.borderColor = "green";
-              playerOneBox.style.borderColor = "white";
+              playerTwoBox.style.borderColor = activePlayerIndicator;
+              playerOneBox.style.borderColor = inactivePlayerIndicator;
               alert("Player Two's Turn");
             } else {
               activePlayer = "playerOne";
-              playerOneBox.style.borderColor = "green";
-              playerTwoBox.style.borderColor = "white";
+              playerOneBox.style.borderColor = activePlayerIndicator;
+              playerTwoBox.style.borderColor = inactivePlayerIndicator;
               alert("Player One's Turn");
             }
           }
@@ -182,19 +186,19 @@ function letterGuess(letter) {
 
 function buyVowel(vowel) {
   if (
-    (activePlayer == "playerOne" && playerOneScore < 250) ||
-    (activePlayer == "playerTwo" && playerTwoScore < 250)
+    (activePlayer == "playerOne" && playerOneRoundScore < 250) ||
+    (activePlayer == "playerTwo" && playerTwoRoundScore < 250)
   ) {
     console.log("You don't have enough points to buy a vowel");
   } else {
     potentialPoints = 0;
     canSpin = true;
     if (activePlayer == "playerOne") {
-      playerOneScore = playerOneScore - 250;
-      playerOneScoreDisplay.textContent = playerOneScore;
+      playerOneRoundScore = playerOneRoundScore - 250;
+      playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
     } else {
-      playerTwoScore = playerTwoScore - 250;
-      playerTwoScoreDisplay.textContent = playerTwoScore;
+      playerTwoRoundScore = playerTwoRoundScore - 250;
+      playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
     }
     if (guesses.find((element) => element == vowel)) {
       alert(`${vowel} was already guessed`);
@@ -209,12 +213,12 @@ function buyVowel(vowel) {
         document.getElementById(vowel).classList.add("keyboard-key-gray");
         if (activePlayer == "playerOne") {
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = "green";
-          playerOneBox.style.borderColor = "white";
+          playerTwoBox.style.borderColor = activePlayerIndicator;
+          playerOneBox.style.borderColor = inactivePlayerIndicator;
         } else {
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = "green";
-          playerTwoBox.style.borderColor = "white";
+          playerOneBox.style.borderColor = activePlayerIndicator;
+          playerTwoBox.style.borderColor = inactivePlayerIndicator;
         }
       }
       guesses.push(vowel);
@@ -230,22 +234,56 @@ function phraseGuess() {
     });
     alert("Correct");
     if (activePlayer == "playerOne") {
-      playerOneScore = playerOneScore + 2000;
-      playerOneScoreDisplay.textContent = playerOneScore;
+      playerOneTotalScore = playerOneTotalScore + playerOneRoundScore + 2000;
+      playerOneTotalScoreDisplay.textContent = playerOneTotalScore;
+      currentRound++;
+      roundNumber.textContent = currentRound;
+      playerOneRoundScore = 0;
+      playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
+      phraseContainer.innerHTML = "";
+      words = [];
+      letters = [];
+      guesses = [];
+      correctGuesses = [];
+      allKeyboardKeys = document.querySelectorAll(".keyboard-key");
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-gray");
+      });
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-green");
+      });
+      generateBoard();
     } else {
-      playerTwoScore = playerTwoScore + 2000;
-      playerTwoScoreDisplay.textContent = playerTwoScore;
+      playerTwoTotalScore = playerTwoTotalScore + playerTwoRoundScore + 2000;
+      playerTwoTotalScoreDisplay.textContent = playerTwoTotalScore;
+      currentRound++;
+      roundNumber.textContent = currentRound;
+      playerTwoRoundScore = 0;
+      playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
+      phraseContainer.innerHTML = "";
+      words = [];
+      letters = [];
+      guesses = [];
+      correctGuesses = [];
+      allKeyboardKeys = document.querySelectorAll(".keyboard-key");
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-gray");
+      });
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-green");
+      });
+      generateBoard();
     }
   } else {
     alert("Incorrect");
     if (activePlayer == "playerOne") {
       activePlayer = "playerTwo";
-      playerTwoBox.style.borderColor = "green";
-      playerOneBox.style.borderColor = "white";
+      playerTwoBox.style.borderColor = activePlayerIndicator
+      playerOneBox.style.borderColor = inactivePlayerIndicator;
     } else {
       activePlayer = "playerOne";
-      playerOneBox.style.borderColor = "green";
-      playerTwoBox.style.borderColor = "white";
+      playerOneBox.style.borderColor = activePlayerIndicator;
+      playerTwoBox.style.borderColor = inactivePlayerIndicator;
     }
   }
   guessingPhrase = false;
