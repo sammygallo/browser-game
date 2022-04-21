@@ -4,6 +4,10 @@ body {
     font-family: 'Akshar', sans-serif;
 }
 
+button {
+    font-family: 'Akshar', sans-serif;
+}
+
 .game-container {
     margin: auto;
     padding: 20px;
@@ -138,5 +142,7 @@ body {
 }
 
 #round {
-
+    font-size: 2em;
+    align-items: center;
+    display: flex;
 }
