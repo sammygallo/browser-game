@@ -43,6 +43,19 @@ button {
     background-color: #F4F1DE;
 }
 
+.punctuation-box {
+    border: 1px solid black;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    font-size: 2em;
+    font-weight: 700;
+    background-color: #F4F1DE;
+}
+
 .letter-hidden {
     display: none;
 }

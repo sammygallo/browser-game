@@ -68,6 +68,13 @@ async function generateBoard() {
         wordBox.append(letterBox);
         phraseContainer.append(wordBox);
       }
+      else {
+        let punctuationBox = document.createElement("div");
+        punctuationBox.classList.add("punctuation-box");
+        punctuationBox.textContent = element;
+        wordBox.append(punctuationBox);
+        phraseContainer.append(wordBox);
+      }
     });
   });
 }
