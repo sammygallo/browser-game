@@ -6,22 +6,91 @@ body {
 
 button {
     font-family: 'Akshar', sans-serif;
+    background-color: #FFFFFF;
+    color: #2A9D8F;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #2A9D8F;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s, border .25s, color .25s;
+}
+
+button:hover {
+    font-family: 'Akshar', sans-serif;
+    background-color: #2A9D8F;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+}
+
+#spin-button {
+    font-family: 'Akshar', sans-serif;
+    background-color: #FFFFFF;
+    color: #2A9D8F;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #2A9D8F;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s, border .25s, color .25s;
+}
+
+#spin-button:hover {
+    font-family: 'Akshar', sans-serif;
+    background-color: #2A9D8F;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+}
+
+#guess-button {
+    position: absolute;
+    left: 30px;
+    font-family: 'Akshar', sans-serif;
+    background-color: #FFFFFF;
+    color: #E76F51;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #E76F51;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s, border .25s, color .25s;
+}
+
+#guess-button:hover {
+    font-family: 'Akshar', sans-serif;
+    background-color: #E76F51;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+}
+
+.active-player-indicator {
+    box-shadow: 0px 0px 10px 2px rgb(42 157 143 / 50%);
+    /* border: 1px solid #e9c46a !important; */
 }
 
 .game-container {
     margin: auto;
-    padding: 20px;
+    padding: 0px 20px;
     border-radius: 20px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, .25);
+    /*box-shadow: 0px 4px 20px rgba(0, 0, 0, .25);*/
 }
 
 #phrase-container {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
-    background-color: #81B29A;
+    /* margin-bottom: 10px; */
+    background-color: #2A9D8F;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 4px;
     justify-content: center;
 }
 
@@ -31,7 +100,7 @@ button {
 }
 
 .letter-box {
-    border: 1px solid black;
+    border: 1px solid #E9C46A;
     width: 2em;
     height: 2em;
     display: flex;
@@ -40,11 +109,13 @@ button {
     margin: 2px;
     font-size: 2em;
     font-weight: 700;
-    background-color: #F4F1DE;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px 1px #E9C46A;
 }
 
 .punctuation-box {
-    border: 1px solid black;
+    border: 1px solid #E9C46A;
     width: 2em;
     height: 2em;
     display: flex;
@@ -53,7 +124,9 @@ button {
     margin: 2px;
     font-size: 2em;
     font-weight: 700;
-    background-color: #F4F1DE;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px 1px #E9C46A;
 }
 
 .letter-hidden {
@@ -82,18 +155,61 @@ button {
 .keyboard-key {
     width: 3em;
     height: 3em;
+    border-radius: 2px;
+    background-color: #f0f0f0;
+    border: 1px solid gray;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard-key:hover {
+    width: 3em;
+    height: 3em;
+    border-radius: 2px;
+    background-color: #f0f0f0;
+    border: 1px solid gray;
+    color: gray;
 }
 
 .keyboard-key-green {
-    background-color: #81B29A;
+    background-color: #2A9D8F;
+    color: #ffffff;
+    border: 1px solid #FFFFFF;
 }
 
 .keyboard-key-gray {
     background-color: gray;
+    color: lightgray;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#phrase-guess-div {
+#overlay {
     display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, .25);
+    top: 0px;
+    left: 0px;
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.phrase-guess-container {
+
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .score-container {
@@ -102,7 +218,7 @@ button {
 }
 
 .player-box {
-    border: 1px solid gray;
+    border: 1px solid #2A9D8F;
     padding: 10px;
     font-weight: 100;
     font-size: 1em;
@@ -114,10 +230,21 @@ button {
 
 #spin-result {
     height: 40px;
+    font-size: 2em;
+}
+
+.spin-result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
 }
 
 #phrase-guess-entry {
-    width: 50%;
+    width: 100%;
+    font-family: 'Akshar';
+    font-size: 1.5em;
+    margin-bottom: 10px;
 }
 
 .player-round-score {
@@ -128,7 +255,7 @@ button {
     align-items: center;
     font-weight: 400;
     font-size: 1.5em;
-    border: 1px solid gray;
+    border: 1px solid #2A9D8F;
     padding: 10px;
     border-radius: 4px;
 }
@@ -140,7 +267,7 @@ button {
     align-items: center;
     font-weight: 400;
     font-size: 1.5em;
-    border: 1px solid gray;
+    border: 1px solid #2A9D8F;
     padding: 10px;
     border-radius: 4px;
     margin-left: 10px;
@@ -148,7 +275,12 @@ button {
 
 .player-name-and-round-score {}
 
-.wheel-container {}
+.wheel-container {
+    display: flex;
+    justify-content: center;
+    height: 42px;
+    margin: 10px 0px;
+}
 
 .new-game {
     display: none;

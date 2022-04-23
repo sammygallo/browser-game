@@ -28,13 +28,16 @@
         </div>
         <div id="phrase-container"></div>
         <div class="wheel-container">
-            <button onclick="spin()">Spin The Wheel</button>
-            <div id="spin-result"></div>
+            <button onclick="revealPhraseGuess()" id="guess-button">Guess The Phrase</button>
+            <button onclick="spin()" id="spin-button">Spin The Wheel</button><div id="spin-result"></div>
         </div>
-        <button onclick="revealPhraseGuess()">Guess The Phrase</button>
-        <div id="phrase-guess-div">
-            <input type="text" id="phrase-guess-entry">
-            <button onclick="phraseGuess()">Submit</button> <button onclick="cancelPhraseGuess()">Never Mind</button>
+        <!--<button onclick="revealPhraseGuess()">Guess The Phrase</button>-->
+        <div id="overlay">
+            <div class="phrase-guess-container">
+                <input type="text" id="phrase-guess-entry">
+                <button onclick="phraseGuess()">Submit</button>&nbsp;<button onclick="cancelPhraseGuess()">Never
+                    Mind</button>
+            </div>
         </div>
         <div class="keyboard">
             <div class="top-row">
@@ -67,7 +70,7 @@
                 <button class="keyboard-key" id="V" onclick="letterGuess('V')">V</button>
                 <button class="keyboard-key" id="B" onclick="letterGuess('B')">B</button>
                 <button class="keyboard-key" id="N" onclick="letterGuess('N')">N</button>
-                <button class="keyboard-key" id="M" onclick="letterGuess    ('M')">M</button>
+                <button class="keyboard-key" id="M" onclick="letterGuess('M')">M</button>
             </div>
         </div>
     </div>
@@ -78,17 +81,23 @@
     let phraseContainer = document.getElementById("phrase-container");
     let spinResult = document.getElementById("spin-result")
     let playerOneRoundScoreDisplay = document.getElementById("player-one-round-score")
+    playerOneRoundScoreDisplay.textContent = 0;
     let playerOneTotalScoreDisplay = document.getElementById("player-one-total-score")
+    playerOneTotalScoreDisplay.textContent = 0;
     let playerTwoRoundScoreDisplay = document.getElementById("player-two-round-score")
+    playerTwoRoundScoreDisplay.textContent = 0;
     let playerTwoTotalScoreDisplay = document.getElementById("player-two-total-score")
-    let phraseGuessDiv = document.getElementById("phrase-guess-div")
+    playerTwoTotalScoreDisplay.textContent = 0;
+    let phraseGuessDiv = document.getElementById("overlay")
     let phraseGuessEntry = document.getElementById("phrase-guess-entry")
     let playerOneBox = document.getElementById("player-one-box")
     let playerTwoBox = document.getElementById("player-two-box")
     let allPhraseLetters = document.querySelectorAll(".letter-hidden")
     let roundNumber = document.getElementById("round-number")
+    let spinButton = document.getElementById("spin-button")
+    let wheelContainer = document.querySelector(".wheel-container")
     roundNumber.textContent = currentRound
-    playerOneBox.style.borderColor = "green"
+    playerOneBox.classList.add("active-player-indicator")
 
 </script>
 

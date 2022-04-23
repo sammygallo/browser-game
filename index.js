@@ -13,34 +13,8 @@ var activePlayer = "playerOne";
 var guessingPhrase = false;
 var result;
 var currentRound = 1;
-var activePlayerIndicator = "green"
-var inactivePlayerIndicator = "gray"
 const regex = new RegExp("[A-Z]");
-var wheelWedges = [
-  "Bankrupt",
-  650,
-  700,
-  "Loose a Turn",
-  800,
-  500,
-  650,
-  500,
-  900,
-  "Bankrupt",
-  5000,
-  500,
-  600,
-  700,
-  600,
-  650,
-  500,
-  700,
-  500,
-  600,
-  550,
-  500,
-  600
-];
+var wheelWedges = ["Bankrupt",650,700,"Loose a Turn",800,500,650,500,900,"Bankrupt",5000,500,600,700,600,650,500,700,500,600,550,500,600];
 
 // ### Get random phrase from array
 function generatePhrase() {
@@ -79,6 +53,25 @@ async function generateBoard() {
   });
 }
 
+function clearBoard() {
+  currentRound++;
+      roundNumber.textContent = currentRound;
+      playerTwoRoundScore = 0;
+      playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
+      phraseContainer.innerHTML = "";
+      words = [];
+      letters = [];
+      guesses = [];
+      correctGuesses = [];
+      allKeyboardKeys = document.querySelectorAll(".keyboard-key");
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-gray");
+      });
+      allKeyboardKeys.forEach((element) => {
+        element.classList.remove("keyboard-key-green");
+      });
+}
+
 // ### Listen for keypress, reveal letter boxes when present, log "does not exist" when not present
 
 document.addEventListener("keypress", function (e) {
@@ -89,41 +82,51 @@ document.addEventListener("keypress", function (e) {
 });
 
 async function spin() {
+  allHiddenLetters = document.querySelectorAll(".letter-hidden");
+  console.log(allHiddenLetters.length)
+  if (allHiddenLetters.length = 0) {
+    alert("All letters have been revealed")
+  }
   if (guessingPhrase == false) {
     if (canSpin == true) {
       result = await wheelWedges[
         Math.round(Math.random() * wheelWedges.length)
       ];
+      spinButton.remove()
       spinResult.textContent = result;
       potentialPoints = result;
       if (result == "Loose a Turn") {
         canSpin = true;
+        wheelContainer.append(spinButton)
+        spinResult.textContent = ""
         if (activePlayer == "playerOne") {
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = activePlayerIndicator;
-          playerOneBox.style.borderColor = inactivePlayerIndicator;
+          playerTwoBox.classList.add("active-player-indicator")
+          playerOneBox.classList.remove("active-player-indicator")
           alert("Player One Loses A Turn");
         } else {
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = activePlayerIndicator;
-          playerTwoBox.style.borderColor = inactivePlayerIndicator;
+          playerOneBox.classList.add("active-player-indicator")
+          playerTwoBox.classList.remove("active-player-indicator")
           alert("Player Two Loses A Turn");
         }
       } else if (result == "Bankrupt") {
         canSpin = true;
+        wheelContainer.append(spinButton)
+        spinResult.textContent = ""
         if (activePlayer == "playerOne") {
           playerOneRoundScore = 0;
           playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = activePlayerIndicator;
-          playerOneBox.style.borderColor = inactivePlayerIndicator;
+          playerOneBox.classList.remove("active-player-indicator")
+          playerTwoBox.classList.add("active-player-indicator")
           alert("Player One Bankrupt");
         } else {
           playerTwoRoundScore = 0;
           playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = activePlayerIndicator;
-          playerTwoBox.style.borderColor = inactivePlayerIndicator;
+          playerOneBox.classList.add("active-player-indicator")
+          playerTwoBox.classList.remove("active-player-indicator")
           alert("Player Two Bankrupt");
         }
       } else {
@@ -172,13 +175,13 @@ function letterGuess(letter) {
             document.getElementById(letter).classList.add("keyboard-key-gray");
             if (activePlayer == "playerOne") {
               activePlayer = "playerTwo";
-              playerTwoBox.style.borderColor = activePlayerIndicator;
-              playerOneBox.style.borderColor = inactivePlayerIndicator;
+              playerOneBox.classList.remove("active-player-indicator")
+              playerTwoBox.classList.add("active-player-indicator")
               alert("Player Two's Turn");
             } else {
               activePlayer = "playerOne";
-              playerOneBox.style.borderColor = activePlayerIndicator;
-              playerTwoBox.style.borderColor = inactivePlayerIndicator;
+              playerOneBox.classList.add("active-player-indicator")
+              playerTwoBox.classList.remove("active-player-indicator")
               alert("Player One's Turn");
             }
           }
@@ -188,6 +191,7 @@ function letterGuess(letter) {
       }
     }
     spinResult.textContent = "";
+    wheelContainer.append(spinButton)
   }
 }
 
@@ -220,12 +224,11 @@ function buyVowel(vowel) {
         document.getElementById(vowel).classList.add("keyboard-key-gray");
         if (activePlayer == "playerOne") {
           activePlayer = "playerTwo";
-          playerTwoBox.style.borderColor = activePlayerIndicator;
-          playerOneBox.style.borderColor = inactivePlayerIndicator;
+          playerOneBox.classList.remove("active-player-indicator")
+          playerTwoBox.classList.add("active-player-indicator")
         } else {
           activePlayer = "playerOne";
-          playerOneBox.style.borderColor = activePlayerIndicator;
-          playerTwoBox.style.borderColor = inactivePlayerIndicator;
+          playerOneBox.classList.add("active-player-indicator")
         }
       }
       guesses.push(vowel);
@@ -243,54 +246,26 @@ function phraseGuess() {
     if (activePlayer == "playerOne") {
       playerOneTotalScore = playerOneTotalScore + playerOneRoundScore + 2000;
       playerOneTotalScoreDisplay.textContent = playerOneTotalScore;
-      currentRound++;
-      roundNumber.textContent = currentRound;
       playerOneRoundScore = 0;
-      playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
-      phraseContainer.innerHTML = "";
-      words = [];
-      letters = [];
-      guesses = [];
-      correctGuesses = [];
-      allKeyboardKeys = document.querySelectorAll(".keyboard-key");
-      allKeyboardKeys.forEach((element) => {
-        element.classList.remove("keyboard-key-gray");
-      });
-      allKeyboardKeys.forEach((element) => {
-        element.classList.remove("keyboard-key-green");
-      });
+      playerOneRoundScoreDisplay.textContent = 0;
+      clearBoard();
       generateBoard();
     } else {
       playerTwoTotalScore = playerTwoTotalScore + playerTwoRoundScore + 2000;
       playerTwoTotalScoreDisplay.textContent = playerTwoTotalScore;
-      currentRound++;
-      roundNumber.textContent = currentRound;
       playerTwoRoundScore = 0;
-      playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
-      phraseContainer.innerHTML = "";
-      words = [];
-      letters = [];
-      guesses = [];
-      correctGuesses = [];
-      allKeyboardKeys = document.querySelectorAll(".keyboard-key");
-      allKeyboardKeys.forEach((element) => {
-        element.classList.remove("keyboard-key-gray");
-      });
-      allKeyboardKeys.forEach((element) => {
-        element.classList.remove("keyboard-key-green");
-      });
+      playerTwoTotalScoreDisplay.textContent = 0;
+      clearBoard();
       generateBoard();
     }
   } else {
     alert("Incorrect");
     if (activePlayer == "playerOne") {
       activePlayer = "playerTwo";
-      playerTwoBox.style.borderColor = activePlayerIndicator
-      playerOneBox.style.borderColor = inactivePlayerIndicator;
+      playerTwoBox.classList.add("active-player-indicator")
     } else {
       activePlayer = "playerOne";
-      playerOneBox.style.borderColor = activePlayerIndicator;
-      playerTwoBox.style.borderColor = inactivePlayerIndicator;
+      playerOneBox.classList.add("active-player-indicator")
     }
   }
   guessingPhrase = false;
@@ -299,7 +274,8 @@ function phraseGuess() {
 }
 
 function revealPhraseGuess() {
-  phraseGuessDiv.style.display = "block";
+  phraseGuessDiv.style.display = "flex";
+  phraseGuessDiv.style.opacity = "1";
   guessingPhrase = true;
 }
 
