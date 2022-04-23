@@ -1,6 +1,7 @@
 var phrase;
 var words = [];
 var letters = [];
+var letter;
 var guesses = [];
 var correctGuesses = [];
 var canSpin = true;
@@ -9,7 +10,7 @@ var playerOneRoundScore = 0;
 var playerOneTotalScore = 0;
 var playerTwoRoundScore = 0;
 var playerTwoTotalScore = 0;
-var activePlayer = "playerOne";
+var activePlayer = "Player 1";
 var guessingPhrase = false;
 var result;
 var currentRound = 1;
@@ -17,8 +18,8 @@ const regex = new RegExp("[A-Z]");
 var wheelWedges = ["Bankrupt",650,700,"Loose a Turn",800,500,650,500,900,"Bankrupt",5000,500,600,700,600,650,500,700,500,600,550,500,600];
 
 // ### Get random phrase from array
-function generatePhrase() {
-  phrase = phrases[Math.round(Math.random() * phrases.length)];
+async function generatePhrase() {
+  phrase = await phrases[Math.round(Math.random() * phrases.length)];
 }
 
 // ### Break up the phrase into words and letters and populate the game board
@@ -44,7 +45,7 @@ async function generateBoard() {
       }
       else {
         let punctuationBox = document.createElement("div");
-        punctuationBox.classList.add("punctuation-box");
+        punctuationBox.classList.add("letter-box");
         punctuationBox.textContent = element;
         wordBox.append(punctuationBox);
         phraseContainer.append(wordBox);
@@ -82,11 +83,6 @@ document.addEventListener("keypress", function (e) {
 });
 
 async function spin() {
-  allHiddenLetters = document.querySelectorAll(".letter-hidden");
-  console.log(allHiddenLetters.length)
-  if (allHiddenLetters.length = 0) {
-    alert("All letters have been revealed")
-  }
   if (guessingPhrase == false) {
     if (canSpin == true) {
       result = await wheelWedges[
@@ -99,35 +95,41 @@ async function spin() {
         canSpin = true;
         wheelContainer.append(spinButton)
         spinResult.textContent = ""
-        if (activePlayer == "playerOne") {
-          activePlayer = "playerTwo";
+        revealLoseTurnMessage()
+        setTimeout(() => {
+          hideLoseTurnMessage();
+        }, "1500")
+        buzzerSound.play()
+        if (activePlayer == "Player 1") {
+          activePlayer = "Player 2";
           playerTwoBox.classList.add("active-player-indicator")
           playerOneBox.classList.remove("active-player-indicator")
-          alert("Player One Loses A Turn");
         } else {
-          activePlayer = "playerOne";
+          activePlayer = "Player 1";
           playerOneBox.classList.add("active-player-indicator")
           playerTwoBox.classList.remove("active-player-indicator")
-          alert("Player Two Loses A Turn");
         }
       } else if (result == "Bankrupt") {
         canSpin = true;
         wheelContainer.append(spinButton)
+        revealBankruptMessage()
+        setTimeout(() => {
+          hideBankruptMessage();
+        }, "1500")
+        bankruptSound.play();
         spinResult.textContent = ""
-        if (activePlayer == "playerOne") {
+        if (activePlayer == "Player 1") {
           playerOneRoundScore = 0;
           playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
-          activePlayer = "playerTwo";
+          activePlayer = "Player 2";
           playerOneBox.classList.remove("active-player-indicator")
           playerTwoBox.classList.add("active-player-indicator")
-          alert("Player One Bankrupt");
         } else {
           playerTwoRoundScore = 0;
           playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
-          activePlayer = "playerOne";
+          activePlayer = "Player 1";
           playerOneBox.classList.add("active-player-indicator")
           playerTwoBox.classList.remove("active-player-indicator")
-          alert("Player Two Bankrupt");
         }
       } else {
         canSpin = false;
@@ -154,7 +156,10 @@ function letterGuess(letter) {
         alert("You need to spin the wheel first");
       } else {
         if (guesses.find((element) => element == letter)) {
-          alert(`${letter} was already guessed`);
+          revealAlreadyGuessedMessage(letter)
+          setTimeout(() => {
+            hideAlreadyGuessedMessage();
+          }, "1500")
         } else {
           if (letterDiv.length > 0) {
             letterDiv.forEach((element) => {
@@ -163,7 +168,8 @@ function letterGuess(letter) {
                 .getElementById(letter)
                 .classList.add("keyboard-key-green");
               correctGuesses.push(letter);
-              if (activePlayer == "playerOne") {
+              dingSound.play();
+              if (activePlayer == "Player 1") {
                 playerOneRoundScore = playerOneRoundScore + potentialPoints;
                 playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
               } else {
@@ -173,16 +179,19 @@ function letterGuess(letter) {
             });
           } else {
             document.getElementById(letter).classList.add("keyboard-key-gray");
-            if (activePlayer == "playerOne") {
-              activePlayer = "playerTwo";
+            revealBadLetterGuessMessage(letter)
+              setTimeout(() => {
+                hidebadLetterGuessMessage();
+              }, "1500")
+              buzzerSound.play()
+            if (activePlayer == "Player 1") {
+              activePlayer = "Player 2";
               playerOneBox.classList.remove("active-player-indicator")
               playerTwoBox.classList.add("active-player-indicator")
-              alert("Player Two's Turn");
             } else {
-              activePlayer = "playerOne";
+              activePlayer = "Player 1";
               playerOneBox.classList.add("active-player-indicator")
               playerTwoBox.classList.remove("active-player-indicator")
-              alert("Player One's Turn");
             }
           }
           guesses.push(letter);
@@ -191,47 +200,57 @@ function letterGuess(letter) {
       }
     }
     spinResult.textContent = "";
-    wheelContainer.append(spinButton)
+    wheelContainer.append(spinButton);
   }
 }
 
-function buyVowel(vowel) {
+function buyVowel(letter) {
   if (
-    (activePlayer == "playerOne" && playerOneRoundScore < 250) ||
-    (activePlayer == "playerTwo" && playerTwoRoundScore < 250)
+    (activePlayer == "Player 1" && playerOneRoundScore < 250) ||
+    (activePlayer == "Player 2" && playerTwoRoundScore < 250)
   ) {
-    console.log("You don't have enough points to buy a vowel");
+    revealCantBuyVowel()
+    setTimeout(() => {
+      hideCantBuyVowel();
+    }, "1500")
   } else {
     potentialPoints = 0;
     canSpin = true;
-    if (activePlayer == "playerOne") {
+    if (activePlayer == "Player 1") {
       playerOneRoundScore = playerOneRoundScore - 250;
       playerOneRoundScoreDisplay.textContent = playerOneRoundScore;
     } else {
       playerTwoRoundScore = playerTwoRoundScore - 250;
       playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
     }
-    if (guesses.find((element) => element == vowel)) {
-      alert(`${vowel} was already guessed`);
+    if (guesses.find((element) => element == letter)) {
+      alert(`${letter} was already guessed`);
     } else {
       if (letterDiv.length > 0) {
         letterDiv.forEach((element) => {
           element.classList.remove("letter-hidden");
-          document.getElementById(vowel).classList.add("keyboard-key-green");
-          correctGuesses.push(vowel);
+          document.getElementById(letter).classList.add("keyboard-key-green");
+          correctGuesses.push(letter);
+          dingSound.play();
         });
       } else {
-        document.getElementById(vowel).classList.add("keyboard-key-gray");
-        if (activePlayer == "playerOne") {
-          activePlayer = "playerTwo";
+        document.getElementById(letter).classList.add("keyboard-key-gray");
+        revealBadLetterGuessMessage(letter)
+              setTimeout(() => {
+                hidebadLetterGuessMessage();
+              }, "1500")
+              buzzerSound.play()
+        if (activePlayer == "Player 1") {
+          activePlayer = "Player 2";
           playerOneBox.classList.remove("active-player-indicator")
           playerTwoBox.classList.add("active-player-indicator")
         } else {
-          activePlayer = "playerOne";
+          activePlayer = "Player 1";
           playerOneBox.classList.add("active-player-indicator")
+          playerTwoBox.classList.remove("active-player-indicator")
         }
       }
-      guesses.push(vowel);
+      guesses.push(letter);
     }
   }
 }
@@ -242,44 +261,98 @@ function phraseGuess() {
     allHiddenLetters.forEach((element) => {
       element.classList.remove("letter-hidden");
     });
-    alert("Correct");
-    if (activePlayer == "playerOne") {
+    puzzleSolveSound.play();
+    clearBoard();
+    generateBoard();
+    if (activePlayer == "Player 1") {
       playerOneTotalScore = playerOneTotalScore + playerOneRoundScore + 2000;
       playerOneTotalScoreDisplay.textContent = playerOneTotalScore;
       playerOneRoundScore = 0;
       playerOneRoundScoreDisplay.textContent = 0;
-      clearBoard();
-      generateBoard();
     } else {
       playerTwoTotalScore = playerTwoTotalScore + playerTwoRoundScore + 2000;
       playerTwoTotalScoreDisplay.textContent = playerTwoTotalScore;
       playerTwoRoundScore = 0;
       playerTwoTotalScoreDisplay.textContent = 0;
-      clearBoard();
-      generateBoard();
     }
   } else {
-    alert("Incorrect");
-    if (activePlayer == "playerOne") {
-      activePlayer = "playerTwo";
+              buzzerSound.play()
+    if (activePlayer == "Player 1") {
+      activePlayer = "Player 2";
       playerTwoBox.classList.add("active-player-indicator")
+      playerOneBox.classList.remove("active-player-indicator")
     } else {
-      activePlayer = "playerOne";
+      activePlayer = "Player 1";
       playerOneBox.classList.add("active-player-indicator")
+      playerTwoBox.classList.remove("active-player-indicator")
     }
   }
   guessingPhrase = false;
-  phraseGuessDiv.style.display = "none";
+  overlayDiv.style.display = "none";
   phraseGuessEntry.value = "";
 }
 
 function revealPhraseGuess() {
-  phraseGuessDiv.style.display = "flex";
-  phraseGuessDiv.style.opacity = "1";
+  overlayDiv.style.display = "flex";
+  overlayDiv.style.opacity = "1";
+  phraseGuessContainer.style.display = "flex"
   guessingPhrase = true;
 }
 
 function cancelPhraseGuess() {
-  phraseGuessDiv.style.display = "none";
+  overlayDiv.style.display = "none";
+  phraseGuessContainer.style.display = "none"
   guessingPhrase = false;
+}
+
+function revealCantBuyVowel() {
+  overlayDiv.style.display = "flex";
+  cantBuyVowel.style.display = "block";
+}
+
+function hideCantBuyVowel() {
+  overlayDiv.style.display = "none";
+  cantBuyVowel.style.display = "none";
+}
+
+function revealBankruptMessage() {
+  overlayDiv.style.display = "flex";
+  bankruptMessage.style.display = "block";
+}
+
+function hideBankruptMessage() {
+  overlayDiv.style.display = "none";
+  bankruptMessage.style.display = "none";
+}
+
+function revealLoseTurnMessage() {
+  overlayDiv.style.display = "flex";
+  loseTurnMessage.style.display = "block";
+}
+
+function hideLoseTurnMessage() {
+  overlayDiv.style.display = "none";
+  loseTurnMessage.style.display = "none";
+}
+
+function revealBadLetterGuessMessage(letter) {
+  overlayDiv.style.display = "flex";
+  badGuessLetter.textContent = `There are no ${letter}'s`;
+  badLetterGuessMessage.style.display = "block";
+}
+
+function hidebadLetterGuessMessage() {
+  overlayDiv.style.display = "none";
+  badLetterGuessMessage.style.display = "none";
+}
+
+function revealAlreadyGuessedMessage(letter) {
+  overlayDiv.style.display = "flex";
+  alreadyGuessedLetter.textContent = `${letter} was already guessed`;
+  alreadyGuessedMessage.style.display = "block";
+}
+
+function hideAlreadyGuessedMessage() {
+  overlayDiv.style.display = "none";
+  alreadyGuessedMessage.style.display = "none";
 }

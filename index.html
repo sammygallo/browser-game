@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <script src="./phrases.js"></script>
-    <script src="./index.js"></script>
-    <link rel="stylesheet" href="./styles.css">
+    <script src="./js/phrases.js"></script>
+    <script src="./js/index.js"></script>
+    <link rel="stylesheet" href="./styles/styles.css">
 </head>
 
 <body>
@@ -33,10 +33,27 @@
         </div>
         <!--<button onclick="revealPhraseGuess()">Guess The Phrase</button>-->
         <div id="overlay">
-            <div class="phrase-guess-container">
+            <div id="phrase-guess-container">
                 <input type="text" id="phrase-guess-entry">
-                <button onclick="phraseGuess()">Submit</button>&nbsp;<button onclick="cancelPhraseGuess()">Never
-                    Mind</button>
+                <button onclick="phraseGuess()">Submit</button>&nbsp;<button onclick="cancelPhraseGuess()">Never Mind</button>
+            </div>
+            <div id="cant-buy-vowel">
+                <div class="message-block">You don't have enough points to buy a vowel
+                </div>
+            </div>
+            <div id="bankrupt-message">
+                <div class="message-block">Bankrupt!</div>
+            </div>
+            <div id="loseturn-message">
+                <div class="message-block">Lose a turn!</div>
+            </div>
+            <div id="bad-letter-guess-message">
+                <div class="message-block"><span id="bad-guess-letter"></span>
+                </div>
+            </div>
+            <div id="already-guessed-message">
+                <div class="message-block"><span id="already-guessed-letter"></span>
+                </div>
             </div>
         </div>
         <div class="keyboard">
@@ -75,6 +92,23 @@
         </div>
     </div>
     <button class="new-game">Start A New Game</button>
+
+    <audio id="bankrupt-sound">
+        <source src="./assets/sounds/bankrupt.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="buzzer-sound">
+        <source src="./assets/sounds/buzzer.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="ding-sound">
+        <source src="./assets/sounds/ding.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="puzzle-solve-sound">
+        <source src="./assets/sounds/puzzle_solve.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
 </body>
 <script>
     generateBoard()
@@ -88,7 +122,7 @@
     playerTwoRoundScoreDisplay.textContent = 0;
     let playerTwoTotalScoreDisplay = document.getElementById("player-two-total-score")
     playerTwoTotalScoreDisplay.textContent = 0;
-    let phraseGuessDiv = document.getElementById("overlay")
+    let overlayDiv = document.getElementById("overlay")
     let phraseGuessEntry = document.getElementById("phrase-guess-entry")
     let playerOneBox = document.getElementById("player-one-box")
     let playerTwoBox = document.getElementById("player-two-box")
@@ -96,6 +130,18 @@
     let roundNumber = document.getElementById("round-number")
     let spinButton = document.getElementById("spin-button")
     let wheelContainer = document.querySelector(".wheel-container")
+    let phraseGuessContainer = document.getElementById("phrase-guess-container")
+    let cantBuyVowel = document.getElementById("cant-buy-vowel")
+    let bankruptMessage = document.getElementById("bankrupt-message")
+    let loseTurnMessage = document.getElementById("loseturn-message")
+    let badGuessLetter = document.getElementById("bad-guess-letter")
+    let badLetterGuessMessage = document.getElementById("bad-letter-guess-message")
+    let alreadyGuessedLetter = document.getElementById("already-guessed-letter")
+    let alreadyGuessedMessage = document.getElementById("already-guessed-message")
+    let bankruptSound = document.getElementById("bankrupt-sound")
+    let buzzerSound = document.getElementById("buzzer-sound")
+    let dingSound = document.getElementById("ding-sound")
+    let puzzleSolveSound = document.getElementById("puzzle-solve-sound")
     roundNumber.textContent = currentRound
     playerOneBox.classList.add("active-player-indicator")
 
