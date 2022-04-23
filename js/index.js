@@ -175,7 +175,8 @@ function letterGuess(letter) {
                 playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
               }
             });
-          } else {
+          }
+           else {
             document.getElementById(letter).classList.add("keyboard-key-gray");
             revealBadLetterGuessMessage(letter)
               setTimeout(() => {
@@ -262,33 +263,7 @@ function buyVowel(letter) {
 async function phraseGuess() {
   allHiddenLetters = document.querySelectorAll(".letter-hidden");
   if (currentRound == 3) {
-    if (phraseGuessEntry.value.toUpperCase() == phrase.toUpperCase()) {
-      updatePlayerTotalScore()
-      allHiddenLetters.forEach((element) => {
-        element.classList.remove("letter-hidden");
-      });
-      if (playerOneTotalScore > playerTwoTotalScore) {
-        winningPlayer = "Player 1";
-      }
-      else {
-        winningPlayer = "Player 2";
-      }
-      puzzleSolveSound.play();
-      phraseGuessContainer.style.display = "none"
-      revealGameWon();
-      console.log("The game has been won!");
-    } else {
-      buzzerSound.play()
-      if (activePlayer == "Player 1") {
-        activePlayer = "Player 2";
-        playerTwoBox.classList.add("active-player-indicator")
-        playerOneBox.classList.remove("active-player-indicator")
-      } else {
-        activePlayer = "Player 1";
-        playerOneBox.classList.add("active-player-indicator")
-        playerTwoBox.classList.remove("active-player-indicator")
-      }
-    }
+    endGame();
   }
   else {
   if (phraseGuessEntry.value.toUpperCase() == phrase.toUpperCase()) {
@@ -418,9 +393,40 @@ async function updatePlayerTotalScore() {
   }
 }
 
+function endGame() {
+  if (phraseGuessEntry.value.toUpperCase() == phrase.toUpperCase()) {
+    updatePlayerTotalScore()
+    allHiddenLetters.forEach((element) => {
+      element.classList.remove("letter-hidden");
+    });
+    if (playerOneTotalScore > playerTwoTotalScore) {
+      winningPlayer = "Player 1";
+    }
+    else {
+      winningPlayer = "Player 2";
+    }
+    puzzleSolveSound.play();
+    phraseGuessContainer.style.display = "none"
+    revealGameWon();
+    console.log("The game has been won!");
+  } else {
+    buzzerSound.play()
+    if (activePlayer == "Player 1") {
+      activePlayer = "Player 2";
+      playerTwoBox.classList.add("active-player-indicator")
+      playerOneBox.classList.remove("active-player-indicator")
+    } else {
+      activePlayer = "Player 1";
+      playerOneBox.classList.add("active-player-indicator")
+      playerTwoBox.classList.remove("active-player-indicator")
+    }
+  }
+}
+
 function newGame() {
   clearBoard();
   overlayDiv.style.display = "none";
+  phraseGuessEntry.value = "";
   playerOneRoundScore = 0;
   playerOneTotalScore = 0;
   playerTwoRoundScore = 0;
@@ -431,5 +437,6 @@ function newGame() {
   playerTwoRoundScoreDisplay.textContent = 0;
   playerTwoTotalScoreDisplay.textContent = 0;
   roundNumber.textContent = currentRound;
+  gameWon.style.display = "none";
   generateBoard();
 }
