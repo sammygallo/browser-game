@@ -55,6 +55,14 @@
                 <div class="message-block"><span id="already-guessed-letter"></span>
                 </div>
             </div>
+            <div id="all-letters-have-been-revealed">
+                <div class="message-block"><span id="all-letters-have-been-revealed-message"></span></div>
+            </div>
+            <div id="game-won">
+                <div class="message-block"><span id="winning-player-display"></span><br>
+                    <button id="new-game" onclick="newGame()">Start a new game</button>
+                </div>
+            </div>
         </div>
         <div class="keyboard">
             <div class="top-row">
@@ -138,6 +146,12 @@
     let badLetterGuessMessage = document.getElementById("bad-letter-guess-message")
     let alreadyGuessedLetter = document.getElementById("already-guessed-letter")
     let alreadyGuessedMessage = document.getElementById("already-guessed-message")
+    let allLettersHaveBeenRevealedMessage = document.getElementById("all-letters-have-been-revealed-message")
+    let allLettersHaveBeenRevealed = document.getElementById("all-letters-have-been-revealed")
+    let gameWon = document.getElementById("game-won")
+    let winningPlayerDisplay = document.getElementById("winning-player-display")
+
+    // ### SOUNDS
     let bankruptSound = document.getElementById("bankrupt-sound")
     let buzzerSound = document.getElementById("buzzer-sound")
     let dingSound = document.getElementById("ding-sound")

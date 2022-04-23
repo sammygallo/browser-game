@@ -1,7 +1,6 @@
 var phrase;
 var words = [];
 var letters = [];
-var letter;
 var guesses = [];
 var correctGuesses = [];
 var canSpin = true;
@@ -14,6 +13,7 @@ var activePlayer = "Player 1";
 var guessingPhrase = false;
 var result;
 var currentRound = 1;
+var winningPlayer;
 const regex = new RegExp("[A-Z]");
 var wheelWedges = ["Bankrupt",650,700,"Loose a Turn",800,500,650,500,900,"Bankrupt",5000,500,600,700,600,650,500,700,500,600,550,500,600];
 
@@ -134,8 +134,6 @@ async function spin() {
       } else {
         canSpin = false;
       }
-    } else {
-      alert("The wheel has already been spun");
     }
   }
 }
@@ -153,7 +151,7 @@ function letterGuess(letter) {
       buyVowel(letter);
     } else {
       if (canSpin == true) {
-        alert("You need to spin the wheel first");
+       // `alert`("You need to spin the wheel first");
       } else {
         if (guesses.find((element) => element == letter)) {
           revealAlreadyGuessedMessage(letter)
@@ -201,6 +199,7 @@ function letterGuess(letter) {
     }
     spinResult.textContent = "";
     wheelContainer.append(spinButton);
+    checkForHiddenLetters();
   }
 }
 
@@ -208,12 +207,14 @@ function buyVowel(letter) {
   if (
     (activePlayer == "Player 1" && playerOneRoundScore < 250) ||
     (activePlayer == "Player 2" && playerTwoRoundScore < 250)
-  ) {
+  )
+   {
     revealCantBuyVowel()
     setTimeout(() => {
       hideCantBuyVowel();
     }, "1500")
-  } else {
+  } 
+  else {
     potentialPoints = 0;
     canSpin = true;
     if (activePlayer == "Player 1") {
@@ -224,7 +225,10 @@ function buyVowel(letter) {
       playerTwoRoundScoreDisplay.textContent = playerTwoRoundScore;
     }
     if (guesses.find((element) => element == letter)) {
-      alert(`${letter} was already guessed`);
+      revealAlreadyGuessedMessage(letter)
+          setTimeout(() => {
+            hideAlreadyGuessedMessage();
+          }, "1500")
     } else {
       if (letterDiv.length > 0) {
         letterDiv.forEach((element) => {
@@ -255,28 +259,48 @@ function buyVowel(letter) {
   }
 }
 
-function phraseGuess() {
+async function phraseGuess() {
   allHiddenLetters = document.querySelectorAll(".letter-hidden");
+  if (currentRound == 3) {
+    if (phraseGuessEntry.value.toUpperCase() == phrase.toUpperCase()) {
+      updatePlayerTotalScore()
+      allHiddenLetters.forEach((element) => {
+        element.classList.remove("letter-hidden");
+      });
+      if (playerOneTotalScore > playerTwoTotalScore) {
+        winningPlayer = "Player 1";
+      }
+      else {
+        winningPlayer = "Player 2";
+      }
+      puzzleSolveSound.play();
+      phraseGuessContainer.style.display = "none"
+      revealGameWon();
+      console.log("The game has been won!");
+    } else {
+      buzzerSound.play()
+      if (activePlayer == "Player 1") {
+        activePlayer = "Player 2";
+        playerTwoBox.classList.add("active-player-indicator")
+        playerOneBox.classList.remove("active-player-indicator")
+      } else {
+        activePlayer = "Player 1";
+        playerOneBox.classList.add("active-player-indicator")
+        playerTwoBox.classList.remove("active-player-indicator")
+      }
+    }
+  }
+  else {
   if (phraseGuessEntry.value.toUpperCase() == phrase.toUpperCase()) {
+    updatePlayerTotalScore()
     allHiddenLetters.forEach((element) => {
       element.classList.remove("letter-hidden");
     });
     puzzleSolveSound.play();
     clearBoard();
     generateBoard();
-    if (activePlayer == "Player 1") {
-      playerOneTotalScore = playerOneTotalScore + playerOneRoundScore + 2000;
-      playerOneTotalScoreDisplay.textContent = playerOneTotalScore;
-      playerOneRoundScore = 0;
-      playerOneRoundScoreDisplay.textContent = 0;
-    } else {
-      playerTwoTotalScore = playerTwoTotalScore + playerTwoRoundScore + 2000;
-      playerTwoTotalScoreDisplay.textContent = playerTwoTotalScore;
-      playerTwoRoundScore = 0;
-      playerTwoTotalScoreDisplay.textContent = 0;
-    }
   } else {
-              buzzerSound.play()
+    buzzerSound.play()
     if (activePlayer == "Player 1") {
       activePlayer = "Player 2";
       playerTwoBox.classList.add("active-player-indicator")
@@ -288,8 +312,8 @@ function phraseGuess() {
     }
   }
   guessingPhrase = false;
-  overlayDiv.style.display = "none";
-  phraseGuessEntry.value = "";
+  cancelPhraseGuess();
+}
 }
 
 function revealPhraseGuess() {
@@ -303,6 +327,7 @@ function cancelPhraseGuess() {
   overlayDiv.style.display = "none";
   phraseGuessContainer.style.display = "none"
   guessingPhrase = false;
+  phraseGuessEntry.value = "";
 }
 
 function revealCantBuyVowel() {
@@ -355,4 +380,56 @@ function revealAlreadyGuessedMessage(letter) {
 function hideAlreadyGuessedMessage() {
   overlayDiv.style.display = "none";
   alreadyGuessedMessage.style.display = "none";
+}
+
+function revealGameWon() {
+  gameWon.style.display = "block";
+  winningPlayerDisplay.textContent = `${winningPlayer} has won the game!`;
+}
+
+function checkForHiddenLetters() {
+  allHiddenLetters = document.querySelectorAll(".letter-hidden");
+  if (allHiddenLetters.length == 0) {
+    overlayDiv.style.display = "flex";
+    allLettersHaveBeenRevealed.style.display = "block";
+    allLettersHaveBeenRevealedMessage.textContent = `All letters have been revealed. ${activePlayer} wins!`;
+    setTimeout(() => {
+      allLettersHaveBeenRevealed.style.display = "none";
+      overlayDiv.style.display = "none";
+    }, "1500")
+    puzzleSolveSound.play();
+    clearBoard();
+    generateBoard();
+    updatePlayerTotalScore()
+  }
+}
+
+async function updatePlayerTotalScore() {
+  if (activePlayer == "Player 1") {
+    playerOneTotalScore = playerOneTotalScore + playerOneRoundScore + 2000;
+    playerOneTotalScoreDisplay.textContent = playerOneTotalScore;
+    playerOneRoundScore = 0;
+    playerOneRoundScoreDisplay.textContent = 0;
+  } else {
+    playerTwoTotalScore = playerTwoTotalScore + playerTwoRoundScore + 2000;
+    playerTwoTotalScoreDisplay.textContent = playerTwoTotalScore;
+    playerTwoRoundScore = 0;
+    playerTwoRoundScoreDisplay.textContent = 0;
+  }
+}
+
+function newGame() {
+  clearBoard();
+  overlayDiv.style.display = "none";
+  playerOneRoundScore = 0;
+  playerOneTotalScore = 0;
+  playerTwoRoundScore = 0;
+  playerTwoTotalScore = 0;
+  currentRound = 1;
+  playerOneRoundScoreDisplay.textContent = 0;
+  playerOneTotalScoreDisplay.textContent = 0;
+  playerTwoRoundScoreDisplay.textContent = 0;
+  playerTwoTotalScoreDisplay.textContent = 0;
+  roundNumber.textContent = currentRound;
+  generateBoard();
 }
