@@ -270,8 +270,10 @@ async function phraseGuess() {
         element.classList.remove("letter-hidden");
       });
       puzzleSolveSound.play();
-      clearBoard();
-      generateBoard();
+      setTimeout(() => {
+        clearBoard();
+        generateBoard();
+      }, "3000");
     } else {
       buzzerSound.play();
       if (activePlayer == "Player 1") {
@@ -405,7 +407,6 @@ function endGame() {
     puzzleSolveSound.play();
     phraseGuessContainer.style.display = "none";
     revealGameWon();
-    console.log("The game has been won!");
   } else {
     buzzerSound.play();
     if (activePlayer == "Player 1") {
