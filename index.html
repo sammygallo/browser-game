@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -10,32 +9,34 @@
 <body>
     <div class="game-container">
         <div class="score-container">
-            <div id="player-one-box" class="player-box">
+            <div id="player-one-box" class="player-box active-player-indicator">
                 <div class="player-name-and-round-score">
                     <span>Player 1</span>
-                    <div id="player-one-round-score" class="player-round-score"></div>
+                    <div id="player-one-round-score" class="player-round-score">0</div>
                 </div>
-                <div id="player-one-total-score" class="player-total-score"></div>
+                <div id="player-one-total-score" class="player-total-score">2500</div>
             </div>
-            <div id="round">Round &nbsp;<span id="round-number"></span></div>
+            <div id="round">Round &nbsp;<span id="round-number">2</span></div>
             <div id="player-two-box" class="player-box">
                 <div class="player-name-and-round-score">
                     <span>Player 2</span>
-                    <div id="player-two-round-score" class="player-round-score"></div>
+                    <div id="player-two-round-score" class="player-round-score">0</div>
                 </div>
-                <div id="player-two-total-score" class="player-total-score"></div>
+                <div id="player-two-total-score" class="player-total-score">0</div>
             </div>
         </div>
         <div id="phrase-container"></div>
         <div class="wheel-container">
             <button onclick="revealPhraseGuess()" id="guess-button">Guess The Phrase</button>
-            <button onclick="spin()" id="spin-button">Spin The Wheel</button><div id="spin-result"></div>
+            <div id="spin-result"></div>
+            <button onclick="spin()" id="spin-button">Spin The Wheel</button>
         </div>
         <!--<button onclick="revealPhraseGuess()">Guess The Phrase</button>-->
-        <div id="overlay">
-            <div id="phrase-guess-container">
+        <div id="overlay" style="display: none; opacity: 1;">
+            <div id="phrase-guess-container" style="display: none;">
                 <input type="text" id="phrase-guess-entry">
-                <button onclick="phraseGuess()">Submit</button>&nbsp;<button onclick="cancelPhraseGuess()">Never Mind</button>
+                <button onclick="phraseGuess()">Submit</button>&nbsp;<button onclick="cancelPhraseGuess()">Never
+                    Mind</button>
             </div>
             <div id="cant-buy-vowel">
                 <div class="message-block">You don't have enough points to buy a vowel
@@ -64,38 +65,40 @@
                 </div>
             </div>
         </div>
-        <div class="keyboard">
-            <div class="top-row">
-                <button class="keyboard-key" id="Q" onclick="letterGuess('Q')">Q</button>
-                <button class="keyboard-key" id="W" onclick="letterGuess('W')">W</button>
-                <button class="keyboard-key" id="E" onclick="letterGuess('E')">E</button>
-                <button class="keyboard-key" id="R" onclick="letterGuess('R')">R</button>
-                <button class="keyboard-key" id="T" onclick="letterGuess('T')">T</button>
-                <button class="keyboard-key" id="Y" onclick="letterGuess('Y')">Y</button>
-                <button class="keyboard-key" id="U" onclick="letterGuess('U')">U</button>
-                <button class="keyboard-key" id="I" onclick="letterGuess('I')">I</button>
-                <button class="keyboard-key" id="O" onclick="letterGuess('O')">O</button>
-                <button class="keyboard-key" id="P" onclick="letterGuess('P')">P</button>
-            </div>
-            <div class="middle-row">
-                <button class="keyboard-key" id="A" onclick="letterGuess('A')">A</button>
-                <button class="keyboard-key" id="S" onclick="letterGuess('S')">S</button>
-                <button class="keyboard-key" id="D" onclick="letterGuess('D')">D</button>
-                <button class="keyboard-key" id="F" onclick="letterGuess('F')">F</button>
-                <button class="keyboard-key" id="G" onclick="letterGuess('G')">G</button>
-                <button class="keyboard-key" id="H" onclick="letterGuess('H')">H</button>
-                <button class="keyboard-key" id="J" onclick="letterGuess('J')">J</button>
-                <button class="keyboard-key" id="K" onclick="letterGuess('K')">K</button>
-                <button class="keyboard-key" id="L" onclick="letterGuess('L')">L</button>
-            </div>
-            <div class="bottom-row">
-                <button class="keyboard-key" id="Z" onclick="letterGuess('Z')">Z</button>
-                <button class="keyboard-key" id="X" onclick="letterGuess('X')">X</button>
-                <button class="keyboard-key" id="C" onclick="letterGuess('C')">C</button>
-                <button class="keyboard-key" id="V" onclick="letterGuess('V')">V</button>
-                <button class="keyboard-key" id="B" onclick="letterGuess('B')">B</button>
-                <button class="keyboard-key" id="N" onclick="letterGuess('N')">N</button>
-                <button class="keyboard-key" id="M" onclick="letterGuess('M')">M</button>
+        <div class="keyboard-container">
+            <div class="keyboard">
+                <div class="top-row">
+                    <button class="keyboard-key" id="Q" onclick="letterGuess('Q')">Q</button>
+                    <button class="keyboard-key" id="W" onclick="letterGuess('W')">W</button>
+                    <button class="keyboard-key" id="E" onclick="letterGuess('E')">E</button>
+                    <button class="keyboard-key" id="R" onclick="letterGuess('R')">R</button>
+                    <button class="keyboard-key" id="T" onclick="letterGuess('T')">T</button>
+                    <button class="keyboard-key" id="Y" onclick="letterGuess('Y')">Y</button>
+                    <button class="keyboard-key" id="U" onclick="letterGuess('U')">U</button>
+                    <button class="keyboard-key" id="I" onclick="letterGuess('I')">I</button>
+                    <button class="keyboard-key" id="O" onclick="letterGuess('O')">O</button>
+                    <button class="keyboard-key" id="P" onclick="letterGuess('P')">P</button>
+                </div>
+                <div class="middle-row">
+                    <button class="keyboard-key" id="A" onclick="letterGuess('A')">A</button>
+                    <button class="keyboard-key" id="S" onclick="letterGuess('S')">S</button>
+                    <button class="keyboard-key" id="D" onclick="letterGuess('D')">D</button>
+                    <button class="keyboard-key" id="F" onclick="letterGuess('F')">F</button>
+                    <button class="keyboard-key" id="G" onclick="letterGuess('G')">G</button>
+                    <button class="keyboard-key" id="H" onclick="letterGuess('H')">H</button>
+                    <button class="keyboard-key" id="J" onclick="letterGuess('J')">J</button>
+                    <button class="keyboard-key" id="K" onclick="letterGuess('K')">K</button>
+                    <button class="keyboard-key" id="L" onclick="letterGuess('L')">L</button>
+                </div>
+                <div class="bottom-row">
+                    <button class="keyboard-key" id="Z" onclick="letterGuess('Z')">Z</button>
+                    <button class="keyboard-key" id="X" onclick="letterGuess('X')">X</button>
+                    <button class="keyboard-key" id="C" onclick="letterGuess('C')">C</button>
+                    <button class="keyboard-key" id="V" onclick="letterGuess('V')">V</button>
+                    <button class="keyboard-key" id="B" onclick="letterGuess('B')">B</button>
+                    <button class="keyboard-key" id="N" onclick="letterGuess('N')">N</button>
+                    <button class="keyboard-key" id="M" onclick="letterGuess('M')">M</button>
+                </div>
             </div>
         </div>
     </div>
@@ -104,61 +107,63 @@
     <audio id="bankrupt-sound">
         <source src="./assets/sounds/bankrupt.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-      </audio>
-      <audio id="buzzer-sound">
+    </audio>
+    <audio id="buzzer-sound">
         <source src="./assets/sounds/buzzer.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-      </audio>
-      <audio id="ding-sound">
+    </audio>
+    <audio id="ding-sound">
         <source src="./assets/sounds/ding.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-      </audio>
-      <audio id="puzzle-solve-sound">
+    </audio>
+    <audio id="puzzle-solve-sound">
         <source src="./assets/sounds/puzzle_solve.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-      </audio>
+    </audio>
+
+    <script>
+        generateBoard()
+        let phraseContainer = document.getElementById("phrase-container");
+        let spinResult = document.getElementById("spin-result")
+        let playerOneRoundScoreDisplay = document.getElementById("player-one-round-score")
+        playerOneRoundScoreDisplay.textContent = 0;
+        let playerOneTotalScoreDisplay = document.getElementById("player-one-total-score")
+        playerOneTotalScoreDisplay.textContent = 0;
+        let playerTwoRoundScoreDisplay = document.getElementById("player-two-round-score")
+        playerTwoRoundScoreDisplay.textContent = 0;
+        let playerTwoTotalScoreDisplay = document.getElementById("player-two-total-score")
+        playerTwoTotalScoreDisplay.textContent = 0;
+        let overlayDiv = document.getElementById("overlay")
+        let phraseGuessEntry = document.getElementById("phrase-guess-entry")
+        let playerOneBox = document.getElementById("player-one-box")
+        let playerTwoBox = document.getElementById("player-two-box")
+        let allPhraseLetters = document.querySelectorAll(".letter-hidden")
+        let roundNumber = document.getElementById("round-number")
+        let spinButton = document.getElementById("spin-button")
+        let wheelContainer = document.querySelector(".wheel-container")
+        let phraseGuessContainer = document.getElementById("phrase-guess-container")
+        let cantBuyVowel = document.getElementById("cant-buy-vowel")
+        let bankruptMessage = document.getElementById("bankrupt-message")
+        let loseTurnMessage = document.getElementById("loseturn-message")
+        let badGuessLetter = document.getElementById("bad-guess-letter")
+        let badLetterGuessMessage = document.getElementById("bad-letter-guess-message")
+        let alreadyGuessedLetter = document.getElementById("already-guessed-letter")
+        let alreadyGuessedMessage = document.getElementById("already-guessed-message")
+        let allLettersHaveBeenRevealedMessage = document.getElementById("all-letters-have-been-revealed-message")
+        let allLettersHaveBeenRevealed = document.getElementById("all-letters-have-been-revealed")
+        let gameWon = document.getElementById("game-won")
+        let winningPlayerDisplay = document.getElementById("winning-player-display")
+
+        // ### SOUNDS
+        let bankruptSound = document.getElementById("bankrupt-sound")
+        let buzzerSound = document.getElementById("buzzer-sound")
+        let dingSound = document.getElementById("ding-sound")
+        let puzzleSolveSound = document.getElementById("puzzle-solve-sound")
+        roundNumber.textContent = currentRound
+        playerOneBox.classList.add("active-player-indicator")
+
+    </script>
+
 </body>
-<script>
-    generateBoard()
-    let phraseContainer = document.getElementById("phrase-container");
-    let spinResult = document.getElementById("spin-result")
-    let playerOneRoundScoreDisplay = document.getElementById("player-one-round-score")
-    playerOneRoundScoreDisplay.textContent = 0;
-    let playerOneTotalScoreDisplay = document.getElementById("player-one-total-score")
-    playerOneTotalScoreDisplay.textContent = 0;
-    let playerTwoRoundScoreDisplay = document.getElementById("player-two-round-score")
-    playerTwoRoundScoreDisplay.textContent = 0;
-    let playerTwoTotalScoreDisplay = document.getElementById("player-two-total-score")
-    playerTwoTotalScoreDisplay.textContent = 0;
-    let overlayDiv = document.getElementById("overlay")
-    let phraseGuessEntry = document.getElementById("phrase-guess-entry")
-    let playerOneBox = document.getElementById("player-one-box")
-    let playerTwoBox = document.getElementById("player-two-box")
-    let allPhraseLetters = document.querySelectorAll(".letter-hidden")
-    let roundNumber = document.getElementById("round-number")
-    let spinButton = document.getElementById("spin-button")
-    let wheelContainer = document.querySelector(".wheel-container")
-    let phraseGuessContainer = document.getElementById("phrase-guess-container")
-    let cantBuyVowel = document.getElementById("cant-buy-vowel")
-    let bankruptMessage = document.getElementById("bankrupt-message")
-    let loseTurnMessage = document.getElementById("loseturn-message")
-    let badGuessLetter = document.getElementById("bad-guess-letter")
-    let badLetterGuessMessage = document.getElementById("bad-letter-guess-message")
-    let alreadyGuessedLetter = document.getElementById("already-guessed-letter")
-    let alreadyGuessedMessage = document.getElementById("already-guessed-message")
-    let allLettersHaveBeenRevealedMessage = document.getElementById("all-letters-have-been-revealed-message")
-    let allLettersHaveBeenRevealed = document.getElementById("all-letters-have-been-revealed")
-    let gameWon = document.getElementById("game-won")
-    let winningPlayerDisplay = document.getElementById("winning-player-display")
-
-    // ### SOUNDS
-    let bankruptSound = document.getElementById("bankrupt-sound")
-    let buzzerSound = document.getElementById("buzzer-sound")
-    let dingSound = document.getElementById("ding-sound")
-    let puzzleSolveSound = document.getElementById("puzzle-solve-sound")
-    roundNumber.textContent = currentRound
-    playerOneBox.classList.add("active-player-indicator")
-
-</script>
 
 </html>
