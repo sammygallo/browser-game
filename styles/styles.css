@@ -81,7 +81,7 @@ button:hover {
     box-sizing: border-box;
     position: relative;
     height: 100%;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 #phrase-container {
@@ -156,8 +156,6 @@ button:hover {
 }
 
 .keyboard-key {
-    /* width: 3em; */
-    /* height: 3em; */
     border-radius: 2px;
     background-color: #f0f0f0;
     border: 1px solid gray;
