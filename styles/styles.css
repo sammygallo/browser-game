@@ -16,7 +16,7 @@ button {
     background-color: #FFFFFF;
     color: #2A9D8F;
     padding: 10px 20px;
-    font-size: 1em;
+    font-size: 1.5em;
     border: 1px solid #2A9D8F;
     border-radius: 4px;
     cursor: pointer;
@@ -45,6 +45,24 @@ button:hover {
 
 #spin-button:hover {
     background-color: #2A9D8F;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+
+#never-mind {
+    font-family: 'Akshar', sans-serif;
+    background-color: #FFFFFF;
+    color: #E76F51;
+    padding: 10px 20px;
+    font-size: 1.5em;
+    border: 1px solid #E76F51;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s, border .25s, color .25s;
+}
+
+#never-mind:hover {
+    background-color: #E76F51;
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
 }
@@ -164,6 +182,7 @@ button:hover {
     justify-content: center;
     align-items: center;
     width: 10%;
+    font-size: 3vh;
 }
 
 .keyboard-key:hover {
@@ -293,7 +312,7 @@ button:hover {
     color: #E76F51;
     background-color: #FFFFFF;
     padding: 1em 2em;
-    font-size: 1.5em;
+    font-size: 4vh;
     border: 2px solid #E76F51;
     border-radius: 4px;
     text-align: center;
