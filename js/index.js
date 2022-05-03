@@ -20,7 +20,7 @@ var wheelWedges = [
 
 // ### Get random phrase from array
 async function generatePhrase() {
-  phrase = await phrases[Math.round(Math.random() * phrases.length)];
+  phrase = await phrases[Math.floor(Math.random() * phrases.length)];
 }
 
 // ### Break up the phrase into words and letters and populate the game board
